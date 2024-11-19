@@ -1,0 +1,152 @@
+# MATLAB specific files
+*.asv
+*.m~
+*.mlx
+*.mlapp
+*.mlpkginstall
+*.mlproj
+*.slx
+*.mdl
+*.mex*
+*.p
+*.xvc
+*.xvp
+
+# MATLAB code generation files
+codegen/
+slprj/
+*_grt_rtw/
+*_ert_rtw/
+*_rtw/
+
+# MATLAB app packaging files
+*.mlappinstall
+*.mltbx
+*.mltbxinstall
+
+# MATLAB project files
+*.prj
+*.proj
+
+# MATLAB Simulink cache files
+*.slxc
+*.slxp
+
+# MATLAB Simulink test files
+*.mldatx
+*.sldd
+
+# MATLAB Simulink generated files
+*.slx.autosave
+*.mdl.autosave
+*.autosave
+
+# MATLAB Simulink report files
+*.html
+*.htm
+*.xml
+*.xsl
+*.xsd
+*.css
+*.js
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.svg
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.txt
+*.log
+*.out
+*.dat
+*.csv
+*.tsv
+*.mat
+*.fig
+*.mexa64
+*.mexw64
+*.mexmaci64
+
+# MATLAB temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.swp
+*.swo
+*.swn
+
+# MATLAB user-specific files
+*.user.matlab
+*.user.matlab.mat
+*.user.matlab.matlab
+*.user.matlab.matlab.mat
+
+# MATLAB preferences and settings
+*.matlab
+*.matlab.mat
+*.matlab.matlab
+*.matlab.matlab.mat
+
+# MATLAB crash dump files
+crash_dump.*
+
+# MATLAB profiler files
+*.prof
+
+# MATLAB coverage files
+*.cvg
+
+# MATLAB test files
+*.tst
+
+# MATLAB code coverage files
+*.cov
+
+# MATLAB lint files
+*.lint
+
+# MATLAB code analysis files
+*.codeanalysis
+
+# MATLAB code generation report files
+*.rpt
+
+# MATLAB code generation log files
+*.log
+
+# MATLAB code generation temporary files
+*.tmp
+
+# MATLAB code generation backup files
+*.bak
+
+# MATLAB code generation old files
+*.old
+
+# MATLAB code generation original files
+*.orig
+
+# MATLAB code generation rejected files
+*.rej
+
+# MATLAB code generation swap files
+*.swp
+
+# MATLAB code generation swo files
+*.swo
+
+# MATLAB code generation swn files
+*.swn
