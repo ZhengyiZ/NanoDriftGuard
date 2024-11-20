@@ -1,4 +1,4 @@
-function release = initMATLAB
+function release = initMatlab
 %INITMATLAB - Initialize MATLAB environment
 %
 % This function adds the current folder and its subfolders to the MATLAB
@@ -22,7 +22,7 @@ function release = initMATLAB
     s = ver;
 
     % Extract and return the release version
-    tmp = extractBetween(s(1).Release,'(',')');
+    tmp = extractBetween(s(1).Release, '(', ')');
     release = tmp{1};
     
 end

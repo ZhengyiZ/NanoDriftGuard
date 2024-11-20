@@ -58,7 +58,7 @@ for i = 1:maxRetry
             % Create a video input object for the specified camera
             vid = videoinput('gentl', idx, 'Mono8', ...
                 'ROIPosition', camera.roi, ...
-                'FramesPerTrigger', camera.avgframe);
+                'FramesPerTrigger', camera.avgframe); %#ok<TNMLP>
 
             % Configure the video input object for manual triggering
             triggerconfig(vid, 'manual');
@@ -74,6 +74,7 @@ for i = 1:maxRetry
     catch exception
         % Store the last error
         lastError = exception;
+        
         % If not found, pause 50 ms between retry attempts
         pause(0.05);
         continue

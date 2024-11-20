@@ -1,3 +1,36 @@
+% This file is part of NanoDriftGuard.
+%
+% NanoDriftGuard is licensed under the MIT License.
+% See the LICENSE file for more information.
+% 
+% Original work copyright (c) 2016, Manuel Guizar Sicairos, James R. Fienup
+% University of Rochester. All rights reserved.
+% 
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+% 
+%     * Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%     * Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the distribution
+%     * Neither the name of the University of Rochester nor the names
+%       of its contributors may be used to endorse or promote products derived
+%       from this software without specific prior written permission.
+% 
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+% POSSIBILITY OF SUCH DAMAGE.
+
 function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 %REGISXPRESS3 - Highly efficient 3D subpixel image registration
 %
@@ -35,7 +68,7 @@ function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 %     align.usfac = 100;
 %     align.ample = 40;
 %     align.angle = 0;
-%     nz = 21; % Number of images in the stack
+%     nz = 21; % Number of images in the stack, at least 3
 %     pos = linspace(-0.1, 0.1, nz);             % Example positions (unit: um)
 %     imgStack = rand(512, 512, nz, 'single');   % Example image stack
 %     gimgs = gpuArray(imgStack);                % Transfer image stack to GPU
@@ -62,38 +95,8 @@ function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 %   To maximize performance, this function doesn't implement error checking
 %   Please ensure that inputs are provided as specified in the example.
 % 
-% Zhengyi Zhan - Nov 20, 2024
-% 
-% Co-authored modifications copyright (c) 2024, Zhengyi Zhan, Xiaofan Sun
-% Zhejiang University. All rights reserved.
-% 
-% Original work copyright (c) 2016, Manuel Guizar Sicairos, James R. Fienup
-% University of Rochester. All rights reserved.
-%
-% Redistribution and use in source and binary forms, with or without
-% modification, are permitted provided that the following conditions are
-% met:
-% 
-%     * Redistributions of source code must retain the above copyright
-%       notice, this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright
-%       notice, this list of conditions and the following disclaimer in
-%       the documentation and/or other materials provided with the distribution
-%     * Neither the name of the University of Rochester nor the names
-%       of its contributors may be used to endorse or promote products derived
-%       from this software without specific prior written permission.
-% 
-% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-% POSSIBILITY OF SUCH DAMAGE.
+% Author: Zhengyi Zhan, Xiaofan Sun
+% Date: Nov 20, 2024
 
 % Persistent variables to retain values between function calls
 persistent scfac

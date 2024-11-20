@@ -1,3 +1,8 @@
+% This file is part of NanoDriftGuard.
+%
+% NanoDriftGuard is licensed under the MIT License.
+% See the LICENSE file for more information.
+
 function fileManage(opa, data, FPS, drifts, target, pos)
 %FILEMANAGE - Manage file operations for active stabilization system
 %
@@ -32,7 +37,7 @@ function fileManage(opa, data, FPS, drifts, target, pos)
 % 
 % EXAMPLE:
 %   % First call to initialize the file manager
-%   file.runningfile  = 'D:\NDG\running.txt';
+%   file.runningfile  = 'D:\NDG\RUNNING.txt';
 %   file.abortfile    = 'D:\NDG\abort.txt';
 %   file.statusfile   = 'D:\NDG\status.txt';
 %   file.historypath  = 'D:\NDG\history\';
@@ -159,6 +164,9 @@ elseif strcmp(opa, 'update')
 
     % Append the new status string to the history file
     fprintf(historyHandle, str);
+
+    % Display the status string
+    fprintf(str);
 
 elseif strcmp(opa, 'abort')
     % Close file handles

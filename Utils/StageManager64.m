@@ -1,3 +1,11 @@
+% This file is part of NanoDriftGuard.
+%
+% NanoDriftGuard is licensed under the MIT License.
+% See the LICENSE file for more information.
+% 
+% Original work COPYRIGHT (c) PHYSIKINSTRUMENTE (PI) GMBH U. CO. KG
+% support-software@pi.ws
+
 classdef StageManager64 < handle
     %STAGEMANAGER64 - Stage Manager using PI GCS2 DLL (64 bit)
     %
@@ -22,7 +30,7 @@ classdef StageManager64 < handle
     %   stageManager = StageManager64(stageConfig);
     %   
     %   target = rand(3, 1);            % Example target position
-    %   stageManager.MOV(target);
+    %   stageManager.MOV(target);       % Move to the target position
     %   stageManager.generalWait(1e-2); % Wait until the stage stops moving
     %   pos = stageManager.qPOS();      % Query the current positions
     %   
@@ -33,9 +41,6 @@ classdef StageManager64 < handle
     %   - For best performance, some error handling has been simplified.
     %
     % See also loadlibrary, calllib, libisloaded, unloadlibrary
-    %
-    % Original work COPYRIGHT (c) PHYSIKINSTRUMENTE (PI) GMBH U. CO. KG
-    % support-software@pi.ws
     %
     % Author: Zhengyi Zhan
     % Date: Nov 19, 2024

@@ -1,3 +1,8 @@
+% This file is part of NanoDriftGuard.
+%
+% NanoDriftGuard is licensed under the MIT License.
+% See the LICENSE file for more information.
+
 classdef PidManager < StageManager64
     %PIDMANAGER - Incremental PID Controller for Stage Management
     %
@@ -28,9 +33,11 @@ classdef PidManager < StageManager64
     %   delta = [0.1; 0.2; 0.3];    % Example delta values
     %   pidManager.moveDelta(delta);
     %
+    %   clear pidManager;           % Clear the object to trigger the delete method
+    %
     % See also StageManager64
     %
-    % Author: Zhengyi Zhan
+    % Author: Xiaofan Sun, Zhengyi Zhan
     % Date: Nov 19, 2024
     
     properties (Access = public)

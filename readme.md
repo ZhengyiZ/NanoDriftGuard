@@ -1,65 +1,85 @@
 # NanoDriftGuard
 
-NanoDriftGuard is a high-speed active stabilization algorithm based on sub-pixel image registration and incremental PID control, implemented in MATLAB.
+NanoDriftGuard is a cutting-edge active stabilization software based on sub-pixel image registration and incremental PID control. Leveraging GPU-accelerated computing, this MATLAB-based solution delivers high-speed performance and exceptional 3D stability with precision down to the ångström scale.
 
-The algorithm provides exceptional stability, capable of achieving precision down to the ångström level in a closed-loop control system by actively stabilizing fiducial marker positions.
+## Table of Contents
+
+- [NanoDriftGuard](#nanodriftguard)
+  - [Table of Contents](#table-of-contents)
+  - [Quick Start](#quick-start)
+    - [Demo or Speed Test](#demo-or-speed-test)
+    - [Running in Real-Time with Actual Devices](#running-in-real-time-with-actual-devices)
+      - [Requirements](#requirements)
+      - [Steps](#steps)
+  - [Functions](#functions)
+    - [Top-Level Function](#top-level-function)
+    - [Core Functions \& Classes](#core-functions--classes)
+    - [Utility Functions \& Classes](#utility-functions--classes)
+  - [Limitations](#limitations)
+  - [License](#license)
 
 ## Quick Start
 
-1. Install all required dependencies (see [Prerequisites](#prerequisites))
+### Demo or Speed Test
+
+1. Install the following prerequisites on a computer with a CUDA-compatible GPU:
+
+   - MATLAB R2023a or later
+     - Parallel Computing Toolbox
+
 2. Clone the repository
 3. Open MATLAB and navigate to the project folder
-4. Edit the example configuration file [`NDG_Config.ini`](NDG_Config.ini), then run:
+4. Run the script [`Demo.m`](Demo.m) or [`Speedtest.m`](Speedtest.m)
+
+### Running in Real-Time with Actual Devices
+
+#### Requirements
+
+- Specialized imaging system with fiducial marker detection capabilities
+- GenTL-compatible camera
+  - MATLAB Image Acquisition Toolbox
+  - MATLAB Image Acquisition Toolbox Support Package for GenICam™ Interface
+- Physik Instrumente (PI) nano-positioning stage
+  - [PI Software Suite](https://www.physikinstrumente.com/en/products/software-suite)
+
+> Note: Other hardware setups may require modifications to the control code.
+
+#### Steps
+
+1. Edit the example configuration file [`NDG_Config.ini`](NDG_Config.ini) according to your specific setup
+2. Run the following code in the MATLAB command window:
 
     ```matlab
+    initMatlab;
     lventry('NDG_Config.ini');
     ```
 
-### Notes
+    If the settings are correct, you should see a figure displaying the initial image along with the linear fit. The command window will then print the running status.
 
-- A history file (.csv) and autosave folder will be created as specified in the configuration file
-- To abort the program, create the abort file in the directory specified in the configuration file
-
-## Prerequisites
-
-### Hardware
-
-- GPU supporting CUDA
-- Physik Instrumente (PI) nano-positioning stage
-- GenTL-compatible camera
-
-Custom hardware will require modifications to the control code.
-
-### Software
-
-- MATLAB R2023a or later
-  - Image Acquisition Toolbox
-    - Image Acquisition Toolbox Support Package for GenICam™ Interface
-  - Parallel Computing Toolbox
-- [PI Software Suite](https://www.physikinstrumente.com/en/products/software-suite)
+> Note: The paths in the examples are configured for Windows-style path conventions. If you are using a different operating system, please modify the path-related code (e.g., `lvini2struct` in [`readConfig.m`](./Utils/readConfig.m)) accordingly.
 
 ## Functions
 
-### Top-level functions
+### Top-Level Function
 
-- [`initMATLAB`](./initMATLAB.m): Initialize the MATLAB environment
-- [`lventry`](./lventry.m): Entry point for the demo function
+- [`lventry`](./lventry.m): Entry point for the real-time control loop
 
-### Core functions & classes
+### Core Functions & Classes
 
+- [`regisXpress3`](./Utils/regisXpress3.m): High-efficiency 3D subpixel image registration with GPU acceleration, optimized for real-time applications
 - [`PidManager`](./Utils/PidManager.m): Incremental PID controller for stage management, inherited from [`StageManager64`](./Utils/StageManager64.m)
-- [`regisXpress3`](./Utils/regisXpress3.m): High-efficiency 3D subpixel image registration with GPU acceleration, optimized for repeated calls
 
-### Utility functions & classes
+### Utility Functions & Classes
 
 - [`StageManager64`](./Utils/StageManager64.m): Custom PI stage control class
 - [`fileManage`](./Utils/fileManage.m): File management utilities
 - [`connectCam`](./Utils/connectCam.m) & [`getImg`](./Utils/getImg.m): Utility functions for GenTL camera connection and image acquisition
 - [`getReference`](./Utils/getReference.m): Utility function for reference image acquisition and parameters of Z estimation
+- [`readConfig`](./Utils/readConfig.m): Utility function for reading `ini` configuration file in LabVIEW format
 
 ## Limitations
 
-This project does not provide a GUI interface. You can create your own GUI interface for previewing images using MATLAB figures or other coding platforms like LabVIEW.
+This project does not include a GUI. You can create your own GUI for better visualization of the drift status using MATLAB figures or other platforms.
 
 ## License
 

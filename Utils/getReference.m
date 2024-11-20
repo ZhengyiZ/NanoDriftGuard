@@ -1,3 +1,8 @@
+% This file is part of NanoDriftGuard.
+%
+% NanoDriftGuard is licensed under the MIT License.
+% See the LICENSE file for more information.
+
 function [p, imgStack] = getReference(sta, absPos, vid, avgframe, roi, ...
     align, dispFig)
 %GETREFERENCE - Capture reference image stacks and compute parameters for 
@@ -41,9 +46,13 @@ function [p, imgStack] = getReference(sta, absPos, vid, avgframe, roi, ...
 %   dispFig = true;
 %   p = getReference(sta, vid, absPos, cam.avgframe, cam.roi, align, dispFig);
 %
+% NOTE:
+%   If the linear fit is not close to the raw data, try adjusting the pause
+%   duration between stage movements according to the stage's settling time
+% 
 % See also getImg, connectCam, StageManager64, regisXpress3
 %
-% Author: Zhengyi Zhan
+% Author: Xiaofan Sun, Zhengyi Zhan
 % Date: Nov 18, 2024
 
 if nargin < 7
@@ -73,7 +82,7 @@ for i = 1:nz
     
 end
 
-% Move stage back to initial position
+% Move stage back to the initial position
 sta.MOV_z(sta.initTarget(3));
 
 % Transfer image stack to GPU
@@ -96,7 +105,7 @@ p = polyfit(absPos, (zeta(:,2)-zeta(:,3))./zeta(:,1), 1);
 % Compute Z offset, and append to the polynomial coefficients
 p(3) = (-p(2)/p(1)) - sta.initTarget(3);
 
-% Display figures if requested
+% Display figure if requested
 if dispFig
     figure(1);
     subplot 121, imagesc(imgStack(:,:,floor(nz/2)+1)); colormap('hot'); axis image;

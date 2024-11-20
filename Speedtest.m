@@ -1,16 +1,15 @@
 clear;
-addpath('Utils\');
 
 %% PARAMETERS
-numImgs = 3;                % Number of images, must be at least 3
+numImgs = 21;                % Number of images, must be at least 3
 imgSize = [128, 256, 512];  % Image size for speed test
-times = 5e2;                % Number of times to run the algorithm
+times = 1e3;                % Number of times to run the algorithm
 
 align.usfac = 100;          % Upsampling factor
 align.ample = 1;
 align.angle = 0;
 
-%% GET HARDWARE
+%% GET HARDWARE INFORMATION
 % Check CUDA availability and get GPU information
 if gpuDeviceCount == 0
     error('No CUDA-capable GPU is available.\n');
@@ -22,6 +21,9 @@ end
 [~, cpuInfo] = system('wmic cpu get name');
 cpuInfo = splitlines(strtrim(cpuInfo));
 cpuInfo = cpuInfo{2};
+
+% Get MATLAB version
+matlabVersion = initMatlab;
 
 %% SPEED TEST
 timeResults = zeros(times, length(imgSize));
@@ -45,6 +47,7 @@ timeResults = timeResults * 1e3; % Convert to ms
 avgTime = mean(timeResults, 1);
 stdTime = std(timeResults, 0, 1);
 
+fprintf('MATLAB: %s\n', matlabVersion);
 fprintf('CPU: %s\n', cpuInfo);
 fprintf('GPU: %s\n', gpuInfo.Name);
 fprintf('Usfac: %d\n', align.usfac);
