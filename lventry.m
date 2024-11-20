@@ -58,8 +58,8 @@ try
             frame = getImg(vid, avgFrame, roi);
 
             % Calculate the 3D drift values
-            delta = regisXpress3(gpuArray(frame), p(1), false); % Send the slope only
-
+            delta = regisXpress3(gpuArray(frame), p, false);
+            
             % Move the stage based on the PID controller
             target = pm.moveDelta(delta);
 

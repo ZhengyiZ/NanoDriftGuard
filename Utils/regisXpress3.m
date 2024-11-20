@@ -1,4 +1,4 @@
-function [coor, zeta] = regisXpress3(gimg, k, firstcall, align, gref)
+function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 %REGISXPRESS3 - Highly efficient 3D subpixel image registration
 %
 % This function performs highly efficient 3D subpixel image registration 
@@ -102,6 +102,7 @@ persistent R
 
 persistent nr
 persistent nc
+persistent nz
 persistent nri
 persistent nci
 
@@ -131,21 +132,22 @@ if firstcall
     usfac = single(align.usfac);                % Upsampling factor
     scfac = single( 1 / align.ample / usfac );  % Scaling factor
     R = single([cos(align.angle), sin(align.angle); ...
-        -sin(align.angle), cos(align.angle)]);   % Rotation matrix
+        -sin(align.angle), cos(align.angle)]);  % Rotation matrix
 
     % Get the size of the input image
-    [nrd, ncd] = size(gimg);
+    [nrd, ncd, nzd] = size(gref);
     nr = single(nrd);       % Number of rows    (single)
     nc = single(ncd);       % Number of columns (single)
+    nz = single(nzd);       % Number of images  (single)
     nri = int32(nrd);       % Number of rows    (int32)
     nci = int32(ncd);       % Number of columns (int32)
 
     % Initialize FFT of the reference image stack
     ftRefs = fft2(gref);
-    rf00 = reshape(gather(sum(abs(ftRefs).^2, [1 2])), 1, 3);
+    rf00 = reshape(gather(sum(abs(ftRefs).^2, [1 2])), 1, nz);
 
     % Initialize variables for padding the Fourier transform
-    ftpadM = zeros([2*nr, 2*nc, 3], 'like', ftRefs);   % Preallocation for padding matrix
+    ftpadM = zeros([2*nr, 2*nc, nz], 'like', ftRefs);   % Preallocation for padding matrix
     imgCenter = int32(floor([nr nc] / 2));
     ftpadSubIdx = int32([2*nr 2*nc]) - imgCenter;      % Submatrix indices for padding
     ftpadCenter = imgCenter + int32(mod([nr nc], 2));  % Center indices for padding, add 1 if odd
@@ -161,8 +163,8 @@ if firstcall
         (ifftshift(0:nr-1) - floor(nr/2)) );    % DFT kernel for rows
     dftKernc = gpuArray( (-1i*2*pi/(nc*usfac)) * ...
         (ifftshift(0:nc-1).' - floor(nc/2)) );  % DFT kernel for columns
-    dftNor = gpuArray( repmat((0:dftn-1).', 1, 1, 3) );
-    dftNoc = gpuArray( repmat((0:dftn-1), 1, 1, 3) );
+    dftNor = gpuArray( repmat((0:dftn-1).', 1, 1, nz) );
+    dftNoc = gpuArray( repmat((0:dftn-1), 1, 1, nz) );
     dftNr = ifftshift( -fix(nr) : ceil(nr)-1 ); % DFT row indices
     dftNc = ifftshift( -fix(nc) : ceil(nc)-1 ); % DFT column indices
     dftProd = dftn ^ 2;                         % DFT size product, for ind2sub
@@ -171,24 +173,24 @@ end
 % Perform FFT of the input image
 ft = fft2(gimg);
 rg00g = sum(abs(ft).^2, 'all');
-c = ft .* conj(ftRefs);
+cc = ft .* conj(ftRefs);
 
 %%%%%%%%%%%% FTPAD %%%%%%%%%%%%
 % Padding the Fourier domain matrix directly on GPU using array assignment
 ftpadM(1:ftpadCenter(1), 1:ftpadCenter(2), :) = ...
-    c(1:ftpadCenter(1), 1:ftpadCenter(2), :);           % left top
+    cc(1:ftpadCenter(1), 1:ftpadCenter(2), :);           % left top
 ftpadM(1:ftpadCenter(1), ftpadSubIdx(2)+1:ftpadNc, :) = ...
-    c(1:ftpadCenter(1), ftpadCenter(2)+1:nci, :);       % right top
+    cc(1:ftpadCenter(1), ftpadCenter(2)+1:nci, :);       % right top
 ftpadM(ftpadSubIdx(1)+1:ftpadNr, 1:ftpadCenter(2), :) = ...
-    c(ftpadCenter(1)+1:nri, 1:ftpadCenter(2), :);       % left btm
+    cc(ftpadCenter(1)+1:nri, 1:ftpadCenter(2), :);       % left btm
 ftpadM(ftpadSubIdx(1)+1:ftpadNr, ftpadSubIdx(2)+1:ftpadNc, :) = ...
-    c(ftpadCenter(1)+1:nri, ftpadCenter(2)+1:nci, :);   % right btm
+    cc(ftpadCenter(1)+1:nri, ftpadCenter(2)+1:nci, :);   % right btm
 
 % Inverse Fourier transform and scaling
 ccFT = abs(ifft2(ftpadM * 4)); % scalefac
 
 % Find the indexes of maximum
-[~, idxftg] = max(reshape(ccFT, ftpadProd, 3), [], 1);
+[~, idxftg] = max(reshape(ccFT, ftpadProd, nz), [], 1);
 
 % Gather the max index from GPU
 idxft = single(gather(idxftg));
@@ -202,8 +204,8 @@ rowShiftFT = round(dftNr(rowIdxFT) / 2 * usfac);
 colShiftFT = round(dftNc(colIdxFT) / 2 * usfac);
 
 % Compute offsets
-roff = reshape(dftShift - rowShiftFT, 1, 1, 3);
-coff = reshape(dftShift - colShiftFT, 1, 1, 3);
+roff = reshape(dftShift - rowShiftFT, 1, 1, nz);
+coff = reshape(dftShift - colShiftFT, 1, 1, nz);
 
 %%%%%%%%%%%% DFT %%%%%%%%%%%%
 % Compute DFT kernels
@@ -211,7 +213,7 @@ kernr = exp( pagemtimes(dftNor - roff, dftKernr) );
 kernc = exp( pagemtimes(dftKernc, dftNoc - coff) );
 
 % Compute cross-correlation using DFT
-ccDFT = abs(pagemtimes(kernr, pagemtimes(ftRefs .* conj(ft), kernc)));
+ccDFT = abs( pagemtimes(kernr, pagemtimes(ftRefs .* conj(ft), kernc)) );
 
 % Find the maximum value and its index in DFT space
 [dftMaxg, idxdftg] = max(ccDFT, [], [1 2], "linear");
@@ -225,8 +227,8 @@ rowIdxDFT = rem(vi-1, dftn) + 1;
 colIdxDFT = (vi - rowIdxDFT) / dftn + 1;
 
 % Compute zeta values
-zeta = sqrt( reshape(dftMax, 1, 3) .^2 ./ (rg00 .* rf00) );
-% zeta = sqrt( abs(reshape(dftMax, 1, 3) .^2 ./ (rg00 .* rf00)) );
+zeta = sqrt( reshape(dftMax, 1, nz) .^2 ./ (rg00 .* rf00) );
+% zeta = sqrt( abs(reshape(dftMax, 1, nz) .^2 ./ (rg00 .* rf00)) );
 
 % Transform to the actual coordinates
 xyCoor = R * ([rowShiftFT(1); colShiftFT(1)] + ...
@@ -234,6 +236,6 @@ xyCoor = R * ([rowShiftFT(1); colShiftFT(1)] + ...
     colIdxDFT(1) - dftShift - 1]) * scfac;
 
 % Append the estimated z-coordinate
-coor = [xyCoor; (zeta(2) - zeta(3)) / (zeta(1) * k)];
+coor = [xyCoor; (((zeta(2) - zeta(3)) / zeta(1)) - p(3)) / p(1)];
 
 end

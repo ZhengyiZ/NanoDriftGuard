@@ -80,6 +80,7 @@ classdef StageManager64 < handle
 
         function delete(obj)
             % Destructor, release the connection to the stage
+            
             obj.release();
         end
 
