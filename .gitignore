@@ -150,3 +150,5 @@ crash_dump.*
 
 # MATLAB code generation swn files
 *.swn
+
+!/Dataset/**

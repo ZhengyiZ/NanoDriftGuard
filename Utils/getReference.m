@@ -89,27 +89,34 @@ sta.MOV_z(sta.initTarget(3));
 gimgs = gpuArray(imgStack);
 
 % Select reference images for registration
-gref = gimgs(:, :, [floor(nz/2)+1 nz 1]);
+mid_idx = floor(nz/2)+1;
+gref = gimgs(:, :, [mid_idx nz 1]);
 
 % Initialize registration results
 zeta = ones([nz, 3], 'single');
 
 % Register each images in the stack and store the zeta values
+p = ones(3, 1, 'single');
 for i = 1:nz
-    [~, zeta(i,:)] = regisXpress3(gimgs(:, :, i), 1, i == 1, align, gref);
+    [~, zeta(i,:)] = regisXpress3(gimgs(:, :, i), p, i == 1, align, gref);
 end
 
 % Linear fit to the registration results
-p = polyfit(absPos, (zeta(:,2)-zeta(:,3))./zeta(:,1), 1);
+etaRaw = (zeta(:,2) - zeta(:,3)) ./ zeta(:,1);
+p = polyfit(absPos, etaRaw, 1);
 
-% Compute Z offset, and append to the polynomial coefficients
+% Note: After modifying this, 'regisXpress3' (line 241-246) also needs to be modified accordingly
+% Compute Z offset (actual)
 p(3) = (-p(2)/p(1)) - sta.initTarget(3);
+
+% Compute Z offset (fitted)
+% p(3) = (zeta(mid_idx, 2) - zeta(mid_idx, 3)) / zeta(mid_idx, 1);
 
 % Display figure if requested
 if dispFig
     figure(1);
-    subplot 121, imagesc(imgStack(:,:,floor(nz/2)+1)); colormap('hot'); axis image;
-    subplot 122, plot(absPos, (zeta(:,2)-zeta(:,3))./zeta(:,1), absPos, p(1).*absPos+p(2));
+    subplot 121, imagesc(imgStack(:, :, mid_idx)); colormap('hot'); axis image;
+    subplot 122, plot(absPos, etaRaw, absPos, p(1) * absPos + p(2));
     title(sprintf('Z Offset: %.4f', p(3)));
 end
 

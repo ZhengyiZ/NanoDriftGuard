@@ -29,7 +29,7 @@ NanoDriftGuard is a cutting-edge active stabilization software based on sub-pixe
 
 2. Clone the repository
 3. Open MATLAB and navigate to the project folder
-4. Run the script [`Demo.m`](Demo.m) or [`Speedtest.m`](Speedtest.m)
+4. Run the script [`Demo.m`](Demo.m) or [`Benchmark.m`](Benchmark.m)
 
 ### Running in Real-Time with Actual Devices
 

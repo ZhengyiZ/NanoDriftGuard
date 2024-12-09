@@ -238,7 +238,11 @@ xyCoor = R * ([rowShiftFT(1); colShiftFT(1)] + ...
     [rowIdxDFT(1) - dftShift - 1; ...
     colIdxDFT(1) - dftShift - 1]) * scfac;
 
-% Append the estimated z-coordinate
-coor = [xyCoor; (((zeta(2) - zeta(3)) / zeta(1)) - p(3)) / p(1)];
+% Note: To use actual or fitted value depends on 'getReference' (line 106-111)
+% Append the estimated z-coordinate (based on actual z offset)
+coor = [xyCoor; (zeta(2)-zeta(3)) / (zeta(1) * p(1)) + p(3)];
+
+% Append the estimated z-coordinate (based on fitted z offset)
+% coor = [xyCoor; (((zeta(2) - zeta(3)) / zeta(1)) - p(3)) / p(1)];
 
 end
