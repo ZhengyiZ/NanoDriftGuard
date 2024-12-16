@@ -42,12 +42,12 @@ function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 % It outperforms the class version.
 % 
 % USAGE:
-%   First call:       [~, zeta] = regisXpress3(gimg, k, true, align, gref)
-%   Subsequent calls: [coor, ~] = regisXpress3(gimg, k, false)
+%   First call:       [~, zeta] = regisXpress3(gimg, p, true, align, gref)
+%   Subsequent calls: [coor, ~] = regisXpress3(gimg, p, false)
 %
 % INPUTS:
 %   gimg      - The input image to be registered (2D GPU array)
-%   k         - Slope for z-axis estimation
+%   p         - Linear fit coefficients for z-estimation, with offset
 %   firstcall - Boolean flag, set true for the first call to the function
 %   align     - (required if firstcall is true) Struct containing alignment
 %               parameters:
@@ -55,7 +55,7 @@ function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 %                         registered to within 1/usfac of a pixel
 %                - ample: Number of pixels per micrometer
 %                - angle: Angle between the stage coordinate axes and 
-%                         the camera coordinate axis
+%                         the camera coordinate axes (radians)
 %   gref      - (required if firstcall is true) Reference image stack 
 %               3D GPU array
 %
@@ -75,14 +75,15 @@ function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 %     gref = gimgs(:, :, [floor(nz/2)+1 nz 1]);  % Select reference images for registration
 %     % Register each images in the stack and store the zeta values
 %     for i = 1:nz
-%         [~, zeta(i,:)] = regisXpress3(gimgs(:,:,i), 1, i==1, align, gref);
+%         [~, zeta(i,:)] = regisXpress3(gimgs(:,:,i), ones(3, 1), i==1, align, gref);
 %     end
 %     % Linear fit to the registration results
 %     p = polyfit(pos, (zeta(:,2)-zeta(:,3))./zeta(:,1), 1);
-%
+%     p(3) = (-p(2)/p(1)) - initPos;    % Correct the offset, see 'getReference' (line 108-113) for details
+
 %   Subsequent calls:
 %     imgNew = rand(512, 512, 'single'); % Example new image
-%     [coor, ~] = regisXpress3(gpuArray(imgNew), p(1), false);    % Use the slope for z-axis estimation
+%     [coor, ~] = regisXpress3(gpuArray(imgNew), p, false);
 %
 % Summary of modifications:
 % 1. Extended reference from single image to image stack for Z-axis estimation
@@ -96,7 +97,7 @@ function [coor, zeta] = regisXpress3(gimg, p, firstcall, align, gref)
 %   Please ensure that inputs are provided as specified in the example.
 % 
 % Author: Zhengyi Zhan, Xiaofan Sun
-% Date: Nov 20, 2024
+% Date: Dec 16, 2024
 
 % Persistent variables to retain values between function calls
 persistent scfac
