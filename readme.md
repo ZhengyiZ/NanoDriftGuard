@@ -11,6 +11,7 @@ NanoDriftGuard is a cutting-edge active stabilization software based on sub-pixe
     - [Running in Real-Time with Actual Devices](#running-in-real-time-with-actual-devices)
       - [Requirements](#requirements)
       - [Steps](#steps)
+  - [Citation \& Reference](#citation--reference)
   - [Functions](#functions)
     - [Top-Level Function](#top-level-function)
     - [Core Functions \& Classes](#core-functions--classes)
@@ -57,6 +58,10 @@ NanoDriftGuard is a cutting-edge active stabilization software based on sub-pixe
     If the settings are correct, you should see a figure displaying the initial image along with the linear fit. The command window will then print the running status.
 
 > Note: The paths in the examples are configured for Windows-style path conventions. If you are using a different operating system, please modify the path-related code (e.g., `lvini2struct` in [`readConfig.m`](./Utils/readConfig.m)) accordingly.
+
+## Citation & Reference
+
+Manuel Guizar-Sicairos, Samuel T. Thurman, and James R. Fienup, "Efficient subpixel image registration algorithms," [Opt. Lett. 33, 156-158](https://doi.org/10.1364/OL.33.000156) (2008)
 
 ## Functions
 

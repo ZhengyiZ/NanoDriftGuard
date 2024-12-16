@@ -42,14 +42,10 @@ end
 if avgframe == 1
     % Capture a single frame
     % Avoid error handling to achieve maximum speed
-    img = single( ...
-        getdata(imaqgate('privateGetField', vid, 'uddobject')) ) / 255;
+    img = single(getdata(vid)) / 255;
 else
     % Capture multiple frames, average them, and reshape according to ROI
-    img = reshape( ...
-        mean( single( getdata( ...
-        imaqgate('privateGetField', vid, 'uddobject') ) / 255), 4), ...
-        roi(4), roi(3));
+    img = reshape( mean( single(getdata(vid)) / 255, 4), roi(4), roi(3));
 end
 
 end

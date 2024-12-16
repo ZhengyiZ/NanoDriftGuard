@@ -62,6 +62,8 @@ end
 % Number of positions
 nz = length(absPos);
 
+fprintf('Start establishling Z-Reference stack...\n');
+
 % Preallocate memory for image stack
 imgStack = zeros(roi(4), roi(3), nz, 'single');
 
@@ -79,6 +81,8 @@ for i = 1:nz
     
     % Capture images from the camera
     imgStack(:,:,i) = getImg(vid, avgframe, roi);
+
+    fprintf('Stage Position: %.3f\n', absPos(i));
     
 end
 
@@ -111,6 +115,8 @@ p(3) = (-p(2)/p(1)) - sta.initTarget(3);
 
 % Compute Z offset (fitted)
 % p(3) = (zeta(mid_idx, 2) - zeta(mid_idx, 3)) / zeta(mid_idx, 1);
+
+fprintf('Z-Reference stack obtained.\n');
 
 % Display figure if requested
 if dispFig

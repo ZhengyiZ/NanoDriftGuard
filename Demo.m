@@ -5,7 +5,12 @@ close all;
 % Define the window size for the moving standard derivations
 windowSize = 100;
 
-load("Dataset\Demo.mat");
+% Load dataset
+load("Dataset\Reference.mat");
+load("Dataset\Images1.mat");
+load("Dataset\Images2.mat");
+imgs = cat(3, imgs1, imgs2);
+clear imgs1 imgs2;
 
 %% GET HARDWARE INFORMATION
 % Check CUDA availability and get GPU information

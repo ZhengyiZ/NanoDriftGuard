@@ -60,7 +60,9 @@ p = getReference(pm, absPos, vid, avgFrame, roi, align, dispFlag);
 drifts = zeros(3, updFrame, 'single');
 
 % Display a message to inform the user how to abort the control loop
-fprintf('To abort the control loop, please create %s\n', abortFile);
+fprintf(['***********************************************************\n' ...
+    'To abort the control loop, please create %s\n' ...
+    '***********************************************************\n'], abortFile);
 
 try
     while ~isfile(abortFile)    % If abort file exists, quit the loop
