@@ -1,11 +1,30 @@
 # NanoDriftGuard
 
-NanoDriftGuard is a cutting-edge active stabilization software based on sub-pixel image registration and incremental PID control. Leveraging GPU-accelerated computing, this MATLAB-based solution delivers high-speed performance and exceptional 3D stability with precision down to the ångström scale.
+<!-- This should be updated after the paper is published. -->
+<!-- [![DOI](https://img.shields.io/badge/DOI-10.1016%2Fj.optlaseng.2025.108851-blue.svg)](https://doi.org/10.1016/j.optlaseng.2025.108851) -->
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-## Table of Contents
+This repository contains the official implementation of the research described in:
+
+> *NanoDriftGuard:* open-source isotropic ångström-scale active stabilization for super-resolution microscopy
+>
+> [![Xiaofan Sun](https://img.shields.io/badge/Xiaofan%20Sun-181717?logo=github&logoColor=white)](https://github.com/xiaohei333) [![Zhengyi Zhan](https://img.shields.io/badge/Zhengyi%20Zhan-181717?logo=github&logoColor=white)](https://github.com/ZhengyiZ) [![Chenying He](https://img.shields.io/badge/Chenying%20He-181717?logo=github&logoColor=white)](https://github.com/Haibara647) et al.
+<!-- This should be updated after username changed. -->
+
+*Any reuse of this code should cite the original associated publication.*
+
+## Introduction
+
+Advanced active stabilization software achieving ångström-scale precision through sub-pixel image registration and incremental PID control. Built in MATLAB with GPU acceleration, NanoDriftGuard delivers real-time 3D drift correction at >50 Hz rates, making it ideal for ultra-high-precision microscopy applications. Its language-agnostic file I/O interface enables seamless integration with any programming environment, offering exceptional flexibility for diverse experimental setups.
+
+<details>
+<summary><kbd>Table of Contents</kbd></summary>
+
+## TOC
 
 - [NanoDriftGuard](#nanodriftguard)
-  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [TOC](#toc)
   - [Quick Start](#quick-start)
     - [Demo or Speed Test](#demo-or-speed-test)
     - [Running in Real-Time with Actual Devices](#running-in-real-time-with-actual-devices)
@@ -18,6 +37,10 @@ NanoDriftGuard is a cutting-edge active stabilization software based on sub-pixe
     - [Utility Functions \& Classes](#utility-functions--classes)
   - [Limitations](#limitations)
   - [License](#license)
+
+<br/>
+
+</details>
 
 ## Quick Start
 
@@ -61,7 +84,24 @@ NanoDriftGuard is a cutting-edge active stabilization software based on sub-pixe
 
 ## Citation & Reference
 
-Manuel Guizar-Sicairos, Samuel T. Thurman, and James R. Fienup, "Efficient subpixel image registration algorithms," [Opt. Lett. 33, 156-158](https://doi.org/10.1364/OL.33.000156) (2008)
+<!-- This should be updated after the paper is published. -->
+<!-- If you use this work in your research, please cite:
+
+``` bibtex
+xxx
+``` -->
+
+This project builds upon *Efficient subpixel image registration algorithms* [![DOI](https://img.shields.io/badge/DOI-10.1364/OL.33.0000156-blue)](https://doi.org/10.1364/OL.33.000156)
+
+``` bibtex
+@article{guizar-sicairosEfficientSubpixelImage2008,
+    author = {Guizar-Sicairos, Manuel and Thurman, Samuel T. and Fienup, James R.},
+    title = {Efficient Subpixel Image Registration Algorithms},
+    year = {2008},
+    doi = {10.1364/OL.33.000156},
+    journal = {Optics Letters}
+}
+```
 
 ## Functions
 
@@ -88,4 +128,6 @@ This project does not include a GUI. You can create your own GUI for better visu
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project incorporates code from [![File Exchange](https://img.shields.io/badge/MATLAB%20File%20Exchange-Efficient%20subpixel%20image%20registration-blue.svg)](https://ww2.mathworks.cn/matlabcentral/fileexchange/18401-efficient-subpixel-image-registration-by-cross-correlation), which is licensed under the [BSD 3-Clause License](./Utils/dftregistration.m).
+
+*NanoDriftGuard* modifications are licensed under the [MIT License](./LICENSE).
