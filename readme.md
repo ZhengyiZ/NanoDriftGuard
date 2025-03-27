@@ -1,8 +1,6 @@
 # NanoDriftGuard
 
-<!-- This should be updated after the paper is published. -->
-<!-- [![DOI](https://img.shields.io/badge/DOI-10.1016%2Fj.optlaseng.2025.108851-blue.svg)](https://doi.org/10.1016/j.optlaseng.2025.108851) -->
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.1016%2Fj.optlaseng.2025.108957-blue.svg)](https://doi.org/10.1016/j.optlaseng.2025.108957) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 This repository contains the official implementation of the research described in:
 
@@ -30,12 +28,12 @@ Advanced active stabilization software achieving ångström-scale precision thro
     - [Running in Real-Time with Actual Devices](#running-in-real-time-with-actual-devices)
       - [Requirements](#requirements)
       - [Steps](#steps)
-  - [Citation \& Reference](#citation--reference)
   - [Functions](#functions)
     - [Top-Level Function](#top-level-function)
     - [Core Functions \& Classes](#core-functions--classes)
     - [Utility Functions \& Classes](#utility-functions--classes)
   - [Limitations](#limitations)
+  - [Citation \& Reference](#citation--reference)
   - [License](#license)
 
 <br/>
@@ -82,27 +80,6 @@ Advanced active stabilization software achieving ångström-scale precision thro
 
 > Note: The paths in the examples are configured for Windows-style path conventions. If you are using a different operating system, please modify the path-related code (e.g., `lvini2struct` in [`readConfig.m`](./Utils/readConfig.m)) accordingly.
 
-## Citation & Reference
-
-<!-- This should be updated after the paper is published. -->
-<!-- If you use this work in your research, please cite:
-
-``` bibtex
-xxx
-``` -->
-
-This project builds upon *Efficient subpixel image registration algorithms* [![DOI](https://img.shields.io/badge/DOI-10.1364/OL.33.0000156-blue)](https://doi.org/10.1364/OL.33.000156)
-
-``` bibtex
-@article{guizar-sicairosEfficientSubpixelImage2008,
-    author = {Guizar-Sicairos, Manuel and Thurman, Samuel T. and Fienup, James R.},
-    title = {Efficient Subpixel Image Registration Algorithms},
-    year = {2008},
-    doi = {10.1364/OL.33.000156},
-    journal = {Optics Letters}
-}
-```
-
 ## Functions
 
 ### Top-Level Function
@@ -125,6 +102,32 @@ This project builds upon *Efficient subpixel image registration algorithms* [![D
 ## Limitations
 
 This project does not include a GUI. You can create your own GUI for better visualization of the drift status using MATLAB figures or other platforms.
+
+## Citation & Reference
+
+If you use this work in your research, please cite [![DOI](https://img.shields.io/badge/DOI-10.1016%2Fj.optlaseng.2025.108957-blue.svg)](https://doi.org/10.1016/j.optlaseng.2025.108957):
+
+``` bibtex
+@article{sunNanoDriftGuardOpensourceIsotropic2025,
+    author = {Sun, Xiaofan and Zhan, Zhengyi and He, Chenying and Luo, Xin and Han, Yubing and Li, Chuankang and Kuang, Cuifang and Liu, Xu},
+    title = {NanoDriftGuard: Open-source Isotropic {\AA}ngstr{\"o}m-Scale Active Stabilization for Super-Resolution Microscopy},
+    year = {2025},
+    doi = {10.1016/j.optlaseng.2025.108957},
+    journal = {Optics and Lasers in Engineering}
+}
+```
+
+This project builds upon *Efficient subpixel image registration algorithms* [![DOI](https://img.shields.io/badge/DOI-10.1364/OL.33.0000156-blue)](https://doi.org/10.1364/OL.33.000156)
+
+``` bibtex
+@article{guizar-sicairosEfficientSubpixelImage2008,
+    author = {Guizar-Sicairos, Manuel and Thurman, Samuel T. and Fienup, James R.},
+    title = {Efficient Subpixel Image Registration Algorithms},
+    year = {2008},
+    doi = {10.1364/OL.33.000156},
+    journal = {Optics Letters}
+}
+```
 
 ## License
 
