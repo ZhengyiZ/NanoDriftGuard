@@ -15,6 +15,12 @@ This repository contains the official implementation of the research described i
 
 Advanced active stabilization software achieving ångström-scale precision through sub-pixel image registration and incremental PID control. Built in MATLAB with GPU acceleration, NanoDriftGuard delivers real-time 3D drift correction at >50 Hz rates, making it ideal for ultra-high-precision microscopy applications. Its language-agnostic file I/O interface enables seamless integration with any programming environment, offering exceptional flexibility for diverse experimental setups.
 
+<iframe src="https://ars.els-cdn.com/content/image/1-s2.0-S0143816625001447-mmc2.mp4"
+        style="width:100%; max-width:1142px; aspect-ratio:1142/720; border:none;"
+        frameborder="0"
+        allowfullscreen>
+</iframe>
+
 <details>
 <summary><kbd>Table of Contents</kbd></summary>
 
